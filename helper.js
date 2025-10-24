@@ -67,6 +67,30 @@ async function aquery(aql, first) {
 
 	return first ? json?.[0] : json;
 };
+async function prepareCid(){
+	let json = await fetchJSON('https://hub.askmaika.ai/core/utils/token_handler', {
+		method: 'POST',
+		headers: {
+			'x-api-key': ENV['x-api-key'],
+		},
+		body: JSON.stringify({
+			"cid": CUSTOMER.cid,
+			"func": "getValue",
+			"args": [
+				"int.settings#",
+				{
+					"$input": {
+					}
+				}
+			]
+		})
+	});
+
+	CUSTOMER.settings = json?.data;
+	console.log('cid:', json);
+
+	// log(CUSTOMER?.settings?.story)
+};
 function makeDraggable(element, dragHandle) {
 	let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
 
