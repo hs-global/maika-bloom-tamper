@@ -132,8 +132,7 @@ async function autoParser(options={}) { try {
 		ENV.lock.autoParser = false;
 		localStorage.removeItem(key);
 	} else {
-		alert('CMD DONE: ' + cmd);
-		// window.close();
+		setTimeout(_ => alert('CMD DONE: ' + cmd), 5e3);
 	}
 
 	// ENV.UI.bloom.disabled = false;
@@ -835,7 +834,15 @@ async function processPostPage(parsed, site_type='post') {
 			}
 		};
 
-		ENV.UI.seldraft.reinit([`REPONSE [${llm.data.length}]`, ...llm.data.map((x, i) => [i, x.id, x.action_command?.split('_')[0], x.generated_content].join('|'))]);
+		ENV.UI.seldraft.reinit([
+			`REPONSE [${llm.data.length}]`,
+			...llm.data.map((x, i) => [
+				i,
+				comments?.find?.(c => x.id == c?.id)?.from?.name || x.id,
+				x.action_command?.split('_')[0],
+				x.generated_content
+			].join('|'))
+		]);
 		ENV.UI.seldraft.meta = {llm, post, group_found};
 		ENV.UI.seldraft.removeEventListener("change", listener);
 		ENV.UI.seldraft.addEventListener("change", listener);
