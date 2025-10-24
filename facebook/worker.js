@@ -2,17 +2,17 @@
 async function popTasks() {
 	return [];
 	console.log('popTasks');
-	return fetchJSON(`https://ops.askmaika.ai/api/v2/tables/m4urxva7ehd1ast/records?limit=1&viewId=vwdxoarqlye0lwlv`, {
-		headers: {'xc-token': ENV['xc-token']}
+	return fetchJSON(ENV.host.popTasks, {
+		headers: {'xc-token': ENV.xc_token}
 	}).then(r => r.json()).then(r => r.list).catch();
 };
 
 async function updateTask(task) {
 	console.log('updateTask', task.Id, task.status);
 
-	return fetchJSON(`https://ops.askmaika.ai/api/v2/tables/m4urxva7ehd1ast/records`, {
+	return fetchJSON(ENV.host.updateTask, {
 		method: 'PATCH',
-		headers: {'xc-token': ENV['xc-token']},
+		headers: {'xc-token': ENV.xc_token},
 		body: JSON.stringify([task]),
 	});
 };

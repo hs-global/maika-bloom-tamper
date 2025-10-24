@@ -43,10 +43,10 @@ async function scrollToEnd(query='body', idx=0, count=3) {
 };
 async function llmgen({token, cid, data}) {
 	ENV.UI.status.textContent = `llmgen: ${token}`;
-	let json = await fetchJSON('https://hub.askmaika.ai/core/utils/llm_gen', {
+	let json = await fetchJSON(ENV.host.llm_gen, {
 		method: 'POST',
 		headers: {
-			'x-api-key': ENV['x-api-key'],
+			'x-api-key': ENV.x_api_key,
 		},
 		body: JSON.stringify({
 			'token': token,
@@ -60,7 +60,7 @@ async function llmgen({token, cid, data}) {
 async function aquery(aql, first) {
 	console.log('aquery', aql, first);
 
-	let json = await fetchJSON(`https://engine.askmaika.ai/llm/aquery`, {
+	let json = await fetchJSON(ENV.host.aquery, {
 		method: 'POST',
 		body: JSON.stringify({aql})
 	});
@@ -68,10 +68,10 @@ async function aquery(aql, first) {
 	return first ? json?.[0] : json;
 };
 async function prepareCid(){
-	let json = await fetchJSON('https://hub.askmaika.ai/core/utils/token_handler', {
+	let json = await fetchJSON(ENV.host.token_handler, {
 		method: 'POST',
 		headers: {
-			'x-api-key': ENV['x-api-key'],
+			'x-api-key': ENV.x_api_key,
 		},
 		body: JSON.stringify({
 			"cid": CUSTOMER.cid,
