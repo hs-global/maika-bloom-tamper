@@ -143,9 +143,11 @@ async function parseNotif() {
 
 	if (SESSION.notifs.size > 0) return;
 
-	document.querySelector('[role="button"][aria-label*="otification"]').click();
+	document.querySelector('[role="button"][aria-label*="otification"]')?.click();
+	await wait (3e3);
 
-	await wait (5e3);
+	document.querySelector('[role="dialog"][aria-label*="otification"] [aria-label*="notifications"]')?.click();
+	await wait (3e3);
 
 	let notifs = [...document.querySelectorAll('a[href*="notif_id"]')]
 		.map(x => {
