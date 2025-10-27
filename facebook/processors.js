@@ -195,6 +195,8 @@ async function parseNotif() {
 	console.log('notifs', notifs, upserteds);
 };
 async function pullGeneratedPost() {
+	if (!CUSTOMER.cid) return console.log('NO_CID');
+
 	let posts = await aquery(`
 		LET cid = '${CUSTOMER.cid}'
 		FOR i in C
@@ -207,8 +209,8 @@ async function pullGeneratedPost() {
 		}
 	`);
 
+	let items = [];
 	posts.forEach(p => {
-
 		p.items.forEach(x => {
 			if (x.type == 'facebook.reply' && x.comment) {
 				let url = new URL(x.link);
@@ -216,6 +218,7 @@ async function pullGeneratedPost() {
 				url.searchParams.set('bloom_id', encodeURIComponent(x.id));
 				url.searchParams.set('comment_id', x.comment);
 				x.link = url.toString();
+				items.push(x);
 			}
 
 			if (x.type == 'facebook.comment' && x.post) {
@@ -223,9 +226,13 @@ async function pullGeneratedPost() {
 				url.searchParams.set('generated', 'true');
 				url.searchParams.set('bloom_id', encodeURIComponent(x.id));
 				x.link = url.toString();
+				items.push(x);
 			}
 		});
 	});
+
+	ENV.UI.selpost.reinit(items.map(x => x.id));
+	ENV.UI.selpost.style.display = 'block';
 
 	console.log('pullGeneratedPost', posts);
 }

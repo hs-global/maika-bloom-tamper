@@ -319,16 +319,19 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	floater.appendChild(sentinel);
 	floater.appendChild(irrelevant);
 	floater.appendChild(chat);
+	floater.appendChild(selpost);
 	floater.appendChild(seldraft);
 	floater.appendChild(bloomed);
 	floater.appendChild(select);
-
 
 	document.body.appendChild(floater);
 
 	setInterval(autoParser, 1e3);
 
-	ENV.UI = { cids, floater, mini, title, status, textarea, reset, pause, bloom, sentinel, bloomed, draft, chat, select, checkbox, seldraft, irrelevant };
+	ENV.UI = { cids, floater, mini, title, status, textarea,
+		reset, pause, bloom, sentinel, bloomed, draft, chat, irrelevant,
+		select, checkbox, selpost, seldraft
+	};
 
 	makeDraggable(floater, title);
 
