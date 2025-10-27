@@ -294,6 +294,8 @@ async function checkProcessPosts(group_id) {
 
 		SESSION.checkProcessPosts.add(url);
 		let post_tab = window.open(url, '_blank');
+
+		await wait(10e3);
 		// setTimeout(() => post_tab?.close?.(), 30e3);
 	}
 
