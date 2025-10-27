@@ -206,7 +206,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	bloomed.id = 'maika-bloomed';
 	bloomed.textContent = 'Bloomed';
 	bloomed.style.fontFamily = 'monospace';
-	bloomed.style.backgroundColor = 'orange';
+	bloomed.style.backgroundColor = 'gold';
 	bloomed.style.color = 'white';
 	bloomed.style.border = 'none';
 	bloomed.style.padding = '4px 6px';
@@ -251,17 +251,17 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 		}
 	});
 
-	const sentinel = document.createElement('button');
-	sentinel.id = 'maika-sentinel';
-	sentinel.textContent = 'Sentinel';
-	sentinel.style.fontFamily = 'monospace';
-	sentinel.style.backgroundColor = 'blue';
-	sentinel.style.color = 'white';
-	sentinel.style.border = 'none';
-	sentinel.style.padding = '4px 6px';
-	sentinel.style.cursor = 'pointer';
-	sentinel.style.margin = '2px';
-	sentinel.addEventListener('click', () => {
+	const harvest = document.createElement('button');
+	harvest.id = 'maika-harvest';
+	harvest.textContent = 'Harvest';
+	harvest.style.fontFamily = 'monospace';
+	harvest.style.backgroundColor = 'orange';
+	harvest.style.color = 'white';
+	harvest.style.border = 'none';
+	harvest.style.padding = '4px 6px';
+	harvest.style.cursor = 'pointer';
+	harvest.style.margin = '2px';
+	harvest.addEventListener('click', () => {
 		if (ENV.UI.selpost.style.display == 'none') {
 			pullGeneratedPost();
 		} else {
@@ -320,7 +320,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	// floater.appendChild(reset);
 	// floater.appendChild(pause);
 	floater.appendChild(bloom);
-	floater.appendChild(sentinel);
+	floater.appendChild(harvest);
 	floater.appendChild(irrelevant);
 	floater.appendChild(chat);
 	floater.appendChild(selpost);
@@ -333,7 +333,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	setInterval(autoParser, 1e3);
 
 	ENV.UI = { cids, floater, mini, title, status, textarea,
-		reset, pause, bloom, sentinel, bloomed, draft, chat, irrelevant,
+		reset, pause, bloom, harvest, bloomed, draft, chat, irrelevant,
 		select, checkbox, selpost, seldraft
 	};
 

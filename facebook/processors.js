@@ -132,8 +132,11 @@ async function autoParser(options={}) { try {
 		ENV.lock.autoParser = false;
 		localStorage.removeItem(key);
 	} else {
-		setTimeout(_ => alert('CMD DONE: ' + cmd), 5e3);
-		setTimeout(_ => window?.close?.(), 10e3);
+		if (new URLSearchParams(location.search).get('harvest') != 'true' ) {
+			window.title = 'DONE_CLOSING';
+			// setTimeout(_ => alert('CMD DONE: ' + cmd), 5e3);
+			setTimeout(_ => window?.close?.(), 10e3);
+		}
 	}
 
 	// ENV.UI.bloom.disabled = false;
@@ -217,7 +220,7 @@ async function pullGeneratedPost() {
 
 			if (x.type == 'facebook.reply' && x.comment) {
 				let url = new URL(x.link);
-				url.searchParams.set('generated', 'true');
+				url.searchParams.set('harvest', 'true');
 				url.searchParams.set('arango_key', encodeURIComponent(x._key));
 				url.searchParams.set('comment_id', x.comment);
 				x.link = url.toString();
@@ -226,7 +229,7 @@ async function pullGeneratedPost() {
 
 			if (x.type == 'facebook.comment' && x.post) {
 				let url = new URL(x.link);
-				url.searchParams.set('generated', 'true');
+				url.searchParams.set('harvest', 'true');
 				url.searchParams.set('arango_key', encodeURIComponent(x._key));
 				x.link = url.toString();
 				items.push(x);
