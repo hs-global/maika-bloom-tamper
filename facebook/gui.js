@@ -250,6 +250,20 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 		}
 	});
 
+	const sentinel = document.createElement('button');
+	sentinel.id = 'maika-sentinel';
+	sentinel.textContent = 'AutoBloom';
+	sentinel.style.fontFamily = 'monospace';
+	sentinel.style.backgroundColor = 'lime';
+	sentinel.style.color = 'white';
+	sentinel.style.border = 'none';
+	sentinel.style.padding = '4px 6px';
+	sentinel.style.cursor = 'pointer';
+	sentinel.style.margin = '2px';
+	sentinel.addEventListener('click', () => {
+
+	});
+
 	const cids = document.createElement('select');
 	cids.reinit = (options=[]) => {
 		[...cids.options].map(x => x.remove());
@@ -310,6 +324,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	// floater.appendChild(reset);
 	// floater.appendChild(pause);
 	floater.appendChild(bloom);
+	floater.appendChild(sentinel);
 	floater.appendChild(irrelevant);
 	floater.appendChild(chat);
 	floater.appendChild(seldraft);
@@ -321,7 +336,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 
 	setInterval(autoParser, 1e3);
 
-	ENV.UI = { cids, floater, mini, title, status, textarea, reset, pause, bloom, bloomed, draft, chat, select, checkbox, seldraft, irrelevant };
+	ENV.UI = { cids, floater, mini, title, status, textarea, reset, pause, bloom, sentinel, bloomed, draft, chat, select, checkbox, seldraft, irrelevant };
 
 	makeDraggable(floater, title);
 
