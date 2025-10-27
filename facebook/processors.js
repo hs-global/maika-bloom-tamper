@@ -47,6 +47,7 @@ async function autoParser(options={}) { try {
 	if (cid) {
 		CUSTOMER.cid = cid;
 		ENV.UI.cids.value = cid;
+		await prepareCid();
 	}
 
 	let avatar_name = document.querySelectorAll('[role="navigation"]')?.[2]?.querySelectorAll('ul li')?.[0]?.textContent
