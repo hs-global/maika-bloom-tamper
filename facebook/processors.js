@@ -133,6 +133,7 @@ async function autoParser(options={}) { try {
 		localStorage.removeItem(key);
 	} else {
 		setTimeout(_ => alert('CMD DONE: ' + cmd), 5e3);
+		setTimeout(_ => window?.close?.(), 10e3);
 	}
 
 	// ENV.UI.bloom.disabled = false;
