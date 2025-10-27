@@ -262,7 +262,11 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	sentinel.style.cursor = 'pointer';
 	sentinel.style.margin = '2px';
 	sentinel.addEventListener('click', () => {
-		pullGeneratedPost();
+		if (ENV.UI.selpost.style.display == 'none') {
+			pullGeneratedPost();
+		} else {
+			ENV.UI.selpost.style.display = 'none';
+		}
 	});
 
 	const cids = document.createElement('select');

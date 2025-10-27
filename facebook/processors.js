@@ -212,10 +212,12 @@ async function pullGeneratedPost() {
 	let items = [];
 	posts.forEach(p => {
 		p.items.forEach(x => {
+			if (!x.message) return;
+
 			if (x.type == 'facebook.reply' && x.comment) {
 				let url = new URL(x.link);
 				url.searchParams.set('generated', 'true');
-				url.searchParams.set('bloom_id', encodeURIComponent(x.id));
+				url.searchParams.set('arango_key', encodeURIComponent(x._key));
 				url.searchParams.set('comment_id', x.comment);
 				x.link = url.toString();
 				items.push(x);
@@ -224,15 +226,20 @@ async function pullGeneratedPost() {
 			if (x.type == 'facebook.comment' && x.post) {
 				let url = new URL(x.link);
 				url.searchParams.set('generated', 'true');
-				url.searchParams.set('bloom_id', encodeURIComponent(x.id));
+				url.searchParams.set('arango_key', encodeURIComponent(x._key));
 				x.link = url.toString();
 				items.push(x);
 			}
 		});
 	});
 
-	ENV.UI.selpost.reinit(items.map(x => x.id));
+	ENV.UI.selpost.reinit( items.map(x => [x.group, x.post, x._key, x.message].join('|')) );
 	ENV.UI.selpost.style.display = 'block';
+	ENV.UI.selpost.addEventListener('change', event => {
+		let [group, post, _key] = (ENV.UI.selpost.value || '').split('|');
+		let item = items.find(x => x._key == _key);
+		window.open(item.link, '_blank');
+	});
 
 	console.log('pullGeneratedPost', posts);
 }
