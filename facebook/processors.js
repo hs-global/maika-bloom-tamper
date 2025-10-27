@@ -194,6 +194,15 @@ async function parseNotif() {
 
 	console.log('notifs', notifs, upserteds);
 };
+async function pullGeneratedPost() {
+	let posts = await aquery(`
+		FOR i in C
+		FILTER '${CUSTOMER.cid}' in i.cids
+		  && i.state == 'generated' && i.from.maika
+		COLLECT post = i.post INTO groups
+		RETURN {post}
+	`);
+}
 /**/
 async function checkProcessPosts(group_id) {
 	if (!CUSTOMER.cid || !group_id || ENV.lock.cmd) return;
