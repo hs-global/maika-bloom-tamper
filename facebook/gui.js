@@ -1,3 +1,17 @@
+function prepareSelect(select) {
+	select.reinit = (options=[]) => {
+		[...(select.options || [])].map(x => x?.remove?.());
+
+		options.forEach(x => {
+			x = x.trim();
+			let opt = document.createElement("option");
+			opt.value = x;
+			opt.text = x;
+			select.add(opt, null);
+		});
+	};
+}
+
 function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), placeholderText = 'Message', statusText = 'status') {
 	const floater = document.createElement('div');
 
@@ -80,16 +94,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 
 	const select = document.createElement('select');
 	select.style.display = 'none';
-	select.reinit = (options=[]) => {
-		[...select.options].map(x => x.remove());
-		options.forEach(x => {
-			x = x.trim();
-			let opt = document.createElement("option");
-			opt.value = x;
-			opt.text = x;
-			select.add(opt, null);
-		});
-	};
+	prepareSelect(select);
 	select.addEventListener("change", function() {
 		log('select.value: ' + select.value)
 	});
@@ -141,16 +146,12 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	const seldraft = document.createElement('select');
 	seldraft.style.display = 'none';
 	seldraft.style.width = '340px';
-	seldraft.reinit = (options=[]) => {
-		[...seldraft.options].map(x => x.remove());
-		options.forEach(x => {
-			x = x.trim();
-			let opt = document.createElement("option");
-			opt.value = x;
-			opt.text = x;
-			seldraft.add(opt, null);
-		});
-	};
+	prepareSelect(seldraft);
+
+	const selpost = document.createElement('select');
+	selpost.style.display = 'none';
+	selpost.style.width = '340px';
+	prepareSelect(selpost);
 
 	const chat = document.createElement('button');
 	chat.id = 'maika-chat';
@@ -252,29 +253,20 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 
 	const sentinel = document.createElement('button');
 	sentinel.id = 'maika-sentinel';
-	sentinel.textContent = 'AutoBloom';
+	sentinel.textContent = 'Sentinel';
 	sentinel.style.fontFamily = 'monospace';
-	sentinel.style.backgroundColor = 'lime';
+	sentinel.style.backgroundColor = 'blue';
 	sentinel.style.color = 'white';
 	sentinel.style.border = 'none';
 	sentinel.style.padding = '4px 6px';
 	sentinel.style.cursor = 'pointer';
 	sentinel.style.margin = '2px';
 	sentinel.addEventListener('click', () => {
-
+		pullGeneratedPost();
 	});
 
 	const cids = document.createElement('select');
-	cids.reinit = (options=[]) => {
-		[...cids.options].map(x => x.remove());
-		options.forEach(x => {
-			x = x.trim();
-			let opt = document.createElement("option");
-			opt.value = x;
-			opt.text = x;
-			cids.add(opt, null);
-		});
-	};
+	prepareSelect(cids);
 	cids.addEventListener("change", function() {
 		CUSTOMER.cid = cids.value;
 		bloom.style.display = 'unset';

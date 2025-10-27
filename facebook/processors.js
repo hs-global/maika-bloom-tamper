@@ -196,12 +196,38 @@ async function parseNotif() {
 };
 async function pullGeneratedPost() {
 	let posts = await aquery(`
+		LET cid = '${CUSTOMER.cid}'
 		FOR i in C
-		FILTER '${CUSTOMER.cid}' in i.cids
-		  && i.state == 'generated' && i.from.maika
-		COLLECT post = i.post INTO groups
-		RETURN {post}
+		FILTER cid in i.cids
+			&& i.state == 'generated'
+			&& i.from.maika
+		COLLECT post = i.post, group = i.group INTO items
+		RETURN {
+			group, post, items: items[*].i,
+		}
 	`);
+
+	posts.forEach(p => {
+
+		p.items.forEach(x => {
+			if (x.type == 'facebook.reply' && x.comment) {
+				let url = new URL(x.link);
+				url.searchParams.set('generated', 'true');
+				url.searchParams.set('bloom_id', encodeURIComponent(x.id));
+				url.searchParams.set('comment_id', x.comment);
+				x.link = url.toString();
+			}
+
+			if (x.type == 'facebook.comment' && x.post) {
+				let url = new URL(x.link);
+				url.searchParams.set('generated', 'true');
+				url.searchParams.set('bloom_id', encodeURIComponent(x.id));
+				x.link = url.toString();
+			}
+		});
+	});
+
+	console.log('pullGeneratedPost', posts);
 }
 /**/
 async function checkProcessPosts(group_id) {
