@@ -83,6 +83,7 @@ async function autoParser(options={}) { try {
 		}
 	}
 
+	ENV.site_type = site_type;
 	ENV.UI.status.textContent = site_type;
 
 	if (!cmd) {
@@ -289,14 +290,16 @@ async function checkProcessPosts(group_id) {
 
 	log(not_processed_posts.length);
 
-	for (let url of not_processed_posts.slice(0, 1)) {
-		console.log('checkProcessPosts', url);
+	if (new URLSearchParams(location.search).get('auto_harvest') != 'true') {
+		for (let url of not_processed_posts.slice(0, 1)) {
+			console.log('checkProcessPosts', url);
 
-		SESSION.checkProcessPosts.add(url);
-		let post_tab = window.open(url, '_blank');
+			SESSION.checkProcessPosts.add(url);
+			let post_tab = window.open(url, '_blank');
 
-		await wait(30e3);
-		// setTimeout(() => post_tab?.close?.(), 30e3);
+			await wait(30e3);
+			// setTimeout(() => post_tab?.close?.(), 30e3);
+		}
 	}
 
 	return processed_post_ids;

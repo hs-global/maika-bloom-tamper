@@ -262,6 +262,13 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 	harvest.style.cursor = 'pointer';
 	harvest.style.margin = '2px';
 	harvest.addEventListener('click', () => {
+		if (ENV.site_type == 'group') {
+			let url = new URL(location.href);
+			url.searchParams.set('auto_harvest', 'true');
+			url.searchParams.set('cid', CUSTOMER.cid);
+			location.href = url.toString();
+		}
+
 		if (ENV.UI.selpost.style.display == 'none') {
 			pullGeneratedPost();
 		} else {
