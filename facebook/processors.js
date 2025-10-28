@@ -47,6 +47,9 @@ async function autoParser(options={}) { try {
 	if (cid) {
 		CUSTOMER.cid = cid;
 		ENV.UI.cids.value = cid;
+		bloom.style.display = 'unset';
+		draft.style.display = 'unset';
+		textarea.style.display = 'unset';
 		await prepareCid();
 	}
 
@@ -288,16 +291,16 @@ async function checkProcessPosts(group_id) {
 									})
 									.filter(x => !SESSION.checkProcessPosts.has(x));
 
-	log(not_processed_posts.length);
+	log(not_processed_posts.length, 'not_processed_posts.length');
 
-	if (new URLSearchParams(location.search).get('auto_harvest') != 'true') {
+	if (new URLSearchParams(location.search).get('auto_harvest') == 'true') {
 		for (let url of not_processed_posts.slice(0, 1)) {
 			console.log('checkProcessPosts', url);
 
 			SESSION.checkProcessPosts.add(url);
 			let post_tab = window.open(url, '_blank');
 
-			await wait(30e3);
+			await wait(60e3);
 			// setTimeout(() => post_tab?.close?.(), 30e3);
 		}
 	}
