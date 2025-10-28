@@ -1,3 +1,5 @@
+const GUI_VERSION = '2025-10-28-10h53';
+
 function prepareSelect(select) {
 	select.reinit = (options=[]) => {
 		[...(select.options || [])].map(x => x?.remove?.());
@@ -291,7 +293,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 		prepareCid();
 		console.clear?.();
 	});
-	cids.reinit('2025-10-28-10h53,maika,haisanmesom,nabu'.split(','));
+	cids.reinit(`${GUI_VERSION},maika,haisanmesom,nabu`.split(','));
 
 	mini.addEventListener('click', async () => {
 		window.close();
