@@ -291,7 +291,7 @@ function init(titleText = [CUSTOMER.cid, CUSTOMER.profile_name].join(' - '), pla
 		prepareCid();
 		console.clear?.();
 	});
-	cids.reinit('CID,maika,haisanmesom,nabu'.split(','));
+	cids.reinit('2025-10-28-10h53,maika,haisanmesom,nabu'.split(','));
 
 	mini.addEventListener('click', async () => {
 		window.close();
